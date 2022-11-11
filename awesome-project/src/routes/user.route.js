@@ -10,10 +10,11 @@ router.get('', userController.getAllUsers);
 
 
 
-
-
 //route to create a new user
 router.post('/register', newUserValidator, userController.newUser);
+
+//route to login the user to the home page
+router.post('/login', userController.loginUser);
 
 
 

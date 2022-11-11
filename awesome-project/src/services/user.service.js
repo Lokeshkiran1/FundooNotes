@@ -1,3 +1,4 @@
+import { userAuth } from '../middlewares/auth.middleware';
 import User from '../models/user.model';
 
 //get all users
@@ -16,6 +17,19 @@ export const newUser = async (body) => {
     return data;
   }
 };
+
+//find the Authorised user and login to home page
+export const findUser=async(body)=>{
+  const existingEmailID=await User.findOne({EmailID:body.EmailID});
+  const existingPassword=await User.findOne({Password:body.Password});
+  if(existingEmailID && existingPassword){
+    const data=await User.findOneAndUpdate({EmailID:body.EmailID},body,{new:true});
+    return data;
+  }else{
+    throw new Error("Email Id or Password not correct xxxxxxxxxxxx");
+  }
+};
+
 
 //update single user
 export const updateUser = async (_id, body) => {

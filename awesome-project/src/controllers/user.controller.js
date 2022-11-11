@@ -58,6 +58,20 @@ export const newUser = async (req, res, next) => {
   }
 };
 
+//Controller to find the user
+export const loginUser=async(req,res,next)=>{
+  try{
+    const data=await UserService.findUser(req.body);
+    res.status(HttpStatus.OK).json({
+      code:HttpStatus.OK,
+      data:data,
+      message:'welcome to the Home Page !!!!!'
+    });
+  }catch(error){
+    next(error);
+  }
+};
+
 /**
  * Controller to update a user
  * @param  {object} req - request object
