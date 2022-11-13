@@ -1,5 +1,6 @@
 import { userAuth } from '../middlewares/auth.middleware';
 import User from '../models/user.model';
+import bcrypt from 'bcrypt'
 
 //get all users
 export const getAllUsers = async () => {
@@ -11,6 +12,11 @@ export const getAllUsers = async () => {
 export const newUser = async (body) => {
   const existingEmailID=await User.findOne({EmailID:body.EmailID});
   if(existingEmailID===null){
+
+    const saltRounds=10;
+    const hashPassword=await bcrypt.hash(body.Password,saltRounds);
+    body.Password=hashPassword;
+
     const data=await User.create(body);
     return data;
   }else{
@@ -23,8 +29,8 @@ export const newUser = async (body) => {
 export const findUser=async(body)=>{
   const data=await User.findOne({EmailID:body.EmailID});
   if(data!==null){
-    const passwordAuth=await User.findOne({Password:body.Password});
-    if(passwordAuth!==null){
+    const passwordAuthentication=await bcrypt.compare(body.Password, data.Password);
+    if(passwordAuthentication){
       return data;
     }else{
       throw new Error("invalid password");
