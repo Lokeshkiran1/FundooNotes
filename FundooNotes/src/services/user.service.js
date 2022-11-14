@@ -1,20 +1,19 @@
 import { userAuth } from '../middlewares/auth.middleware';
 import User from '../models/user.model';
-import bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt';
+import Jwt  from 'jsonwebtoken';
+import dotenv from 'dotenv';
+dotenv.config();
 
-//get all users
-export const getAllUsers = async () => {
-  const data = await User.find();
-  return data;
-};
 
-//create new user
+
+//register new user
 export const newUser = async (body) => {
   const existingEmailID=await User.findOne({EmailID:body.EmailID});
   if(existingEmailID===null){
 
     const saltRounds=10;
-    const hashPassword=await bcrypt.hash(body.Password,saltRounds);
+    const hashPassword=bcrypt.hashSync(body.Password,saltRounds);
     body.Password=hashPassword;
 
     const data=await User.create(body);
@@ -24,14 +23,18 @@ export const newUser = async (body) => {
   }
 };
 
-//find the Authorised user and login to home page-------------
+//find the Authorised user and login the user-------------
 
-export const findUser=async(body)=>{
+export const loginUser=async(body)=>{
   const data=await User.findOne({EmailID:body.EmailID});
   if(data!==null){
-    const passwordAuthentication=await bcrypt.compare(body.Password, data.Password);
+    const passwordAuthentication=bcrypt.compareSync(body.Password, data.Password);
     if(passwordAuthentication){
-      return data;
+      var token=Jwt.sign(
+        {FirstName:data.FirstName,EmailID:data.EmailID,id:data._id},
+        process.env.SECRET_KEY
+      );
+      return token;
     }else{
       throw new Error("invalid password");
     }
@@ -42,28 +45,3 @@ export const findUser=async(body)=>{
 
 
 
-//update single user
-export const updateUser = async (_id, body) => {
-  const data = await User.findByIdAndUpdate(
-    {
-      _id
-    },
-    body,
-    {
-      new: true
-    }
-  );
-  return data;
-};
-
-//delete single user
-export const deleteUser = async (id) => {
-  await User.findByIdAndDelete(id);
-  return '';
-};
-
-//get single user
-export const getUser = async (_id) => {
-  const data = await User.findById(_id);
-  return data;
-};
