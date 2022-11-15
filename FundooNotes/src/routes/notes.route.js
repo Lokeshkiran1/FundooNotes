@@ -10,6 +10,9 @@ router.post('',notesValidator,userAuth,notesController.createNote);
 //router to get all notes
 router.get('',userAuth,notesController.getAllNotes);
 
+//router to get a particular note by id
+router.get('/:_id',userAuth,notesController.getNote);
+
 
 
 export default router;
