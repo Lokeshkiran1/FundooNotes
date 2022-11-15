@@ -13,6 +13,10 @@ router.get('',userAuth,notesController.getAllNotes);
 //router to get a particular note by id
 router.get('/:_id',userAuth,notesController.getNote);
 
+//router to update the note
+router.post('/:_id',userAuth,notesController.updateNote);
 
+//router to delete a note
+//router.delete('/:_id',userAuth,notesController.deleteNote);
 
 export default router;
