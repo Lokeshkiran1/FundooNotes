@@ -40,6 +40,7 @@ import * as UserService from '../services/user.service';
  */
 export const newUser = async (req, res, next) => {
   try {
+    console.log("req.body===========================>",req.body);
     const data = await UserService.newUser(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,
