@@ -77,5 +77,21 @@ export const updateNote=async(req,res,next)=>{
 
 /*delete the note*/
 
+export const deleteNote=async(req,res,next)=>{
+    try{
+        await NoteService.deleteNote(req.params._id);
+        res.status(HttpStatus.OK).json({
+            code:HttpStatus.OK,
+            data:[],
+            message:'note deleted successfully'
+        });
+    }catch(error){
+        res.status(HttpStatus.BAD_REQUEST).json({
+            code:HttpStatus.BAD_REQUEST,
+            message:'note not found'
+        });
+    }
+};
+
 
 
