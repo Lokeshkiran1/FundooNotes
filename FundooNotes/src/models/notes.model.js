@@ -14,7 +14,12 @@ const notesSchema=new Schema(
             type:String
         },
         isArchived:{
-            type:Boolean
+            type:Boolean,
+            default:false
+        },
+        isTrash:{
+            type:Boolean,
+            default:false
         },
         isDeleted:{
             type:Boolean

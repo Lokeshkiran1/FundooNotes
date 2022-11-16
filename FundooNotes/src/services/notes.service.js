@@ -38,3 +38,20 @@ export const deleteNote=async(id)=>{
     await Notes.findByIdAndDelete(id);
     return '';
 };
+
+
+//archive a note
+export const archiveNote=async(_id)=>{
+    const note=await Notes.findOne({_id:_id});
+    const isArchived=note.isArchived===false?true:false;
+    const data=await Notes.findByIdAndUpdate(
+        {
+            _id
+        },
+        {isArchived:isArchived},
+        {
+            new:true
+        }
+    );
+    return data;
+};
