@@ -20,9 +20,9 @@ router.put('/:_id',userAuth,notesController.updateNote);
 router.delete('/:_id',userAuth,notesController.deleteNote);
 
 //router to archieve a note
-router.put('/:_id/archive',userAuth,notesController.archiveNote);
+router.put('/:_id/archive',userAuth,notesController.archiveTheNote);
 
 //router to trash a note
-router.put('/:_id/trash',userAuth,notesController.trashNote);
+router.put('/:_id/trash',userAuth,notesController.trashTheNote);
 
 export default router;
