@@ -27,11 +27,13 @@ export const loginValidator=(req,res,next)=>{
   });
   const{error,value}=schema.validate(req.body);
   if(error){
+    console.log("error====================>",error);
     res.status(HttpStatus.BAD_REQUEST).json({
       code:HttpStatus.BAD_REQUEST,
       message:`${error}`
     });
   }else{
+    console.log("value============================>>>",value);
     req.validatedBody=value;
     next();
   }
