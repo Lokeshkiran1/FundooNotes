@@ -96,9 +96,9 @@ export const deleteNote=async(req,res,next)=>{
 
 //Controller to archive note
 
-export const archiveNote=async(req,res,next)=>{
+export const archiveTheNote=async(req,res)=>{
     try{
-        const data=await NoteService.archiveNote(req.params._id);
+        const data=await NoteService.archiveTheNote(req.params._id);
         res.status(HttpStatus.ACCEPTED).json({
             code:HttpStatus.ACCEPTED,
             data:data,
@@ -114,9 +114,9 @@ export const archiveNote=async(req,res,next)=>{
 
 //controller to trash note
 
-export const trashNote=async(req,res,next)=>{
+export const trashTheNote=async(req,res)=>{
     try{
-        const data=await NoteService.trashNote(req.params._id);
+        const data=await NoteService.trashTheNote(req.params._id);
         res.status(HttpStatus.ACCEPTED).json({
             code:HttpStatus.ACCEPTED,
             data:data,

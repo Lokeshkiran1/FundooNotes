@@ -40,9 +40,10 @@ export const deleteNote=async(id)=>{
 };
 
 
-//archive a note
-export const archiveNote=async(_id)=>{
+//archive the note and already archived then unarchive the note
+export const archiveTheNote=async(_id)=>{
     const noteData=await Notes.findOne({_id:_id});
+    console.log("Note data =========================>>>>>>>>>>",noteData);
     const isArchived=noteData.isArchived===true?false:true;
     const data=await Notes.findByIdAndUpdate(
         {
@@ -56,9 +57,9 @@ export const archiveNote=async(_id)=>{
     return data;
 };
 
-//trash a note
+//trash a note and untrash
 
-export const trashNote=async(_id)=>{
+export const trashTheNote=async(_id)=>{
     const noteData=await Notes.findOne({_id:_id});
     console.log("noteData==========================>>>>>>>>>>>",noteData);
     const isTrash=noteData.isTrash===true?false:true;
