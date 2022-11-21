@@ -12,4 +12,10 @@ router.post('/register', newUserValidator, userController.newUser);
 //route to login the user to the home page
 router.post('/login',loginValidator, userController.login);
 
+//route to forgot password
+router.post('/forgotPassword',userController.authorisedUserOrNot);
+
+//route to reset the password
+router.put('/resetPassword',userAuth,userController.resetPassword);
+
 export default router;

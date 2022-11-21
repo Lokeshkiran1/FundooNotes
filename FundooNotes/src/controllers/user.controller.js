@@ -31,6 +31,42 @@ import * as UserService from '../services/user.service';
   }
 };
 
+//controller to authorise the user for forgotten password
+
+export const authorisedUserOrNot=async(req,res,next)=>{
+  try{
+    const data=await UserService.authorisedUser(req.body);
+    res.status(HttpStatus.OK).json({
+      code:HttpStatus.OK,
+      data:data,
+      message:'Authorised user you can proceed further'
+    });
+  }catch(error){
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code:HttpStatus.BAD_REQUEST,
+      message:`${error}`
+    });
+  }
+};
+
+//controller to reset the password
+
+export const resetPassword=async(req,res,next)=>{
+ try{
+    const data=await UserService.resetPassword(req.body);
+    res.status(HttpStatus.OK).json({
+      code:HttpStatus.OK,
+      data:data,
+      message:'reset password is successfull ---!!!!!!'
+    });
+  }catch(error){
+    res.status(HttpStatus.BAD_REQUEST).json({
+      code:HttpStatus.BAD_REQUEST,
+      message:`${error}`
+    });
+  }
+}
+
 
 /**
  * Controller to create a new user
