@@ -31,7 +31,8 @@ export async function sendMail(mailID){
             to:mailID,
             subject:'Forgot Password API',
             text:'You can reset your password by clicking on the following link =============>>>>>>',
-            html:`<h2>To reset your account with new password, please <a href="http://localhost:4000/api/v1/users/resetPassword">Click Here.....</a></h2>`
+            
+            html:`<h3>To reset your account with new password, please <a href="http://localhost:4000/api/v1/users/resetPassword">Click Here.....</a></h3>`
         };
 
         const result= await transport.sendMail(mailOptions);
