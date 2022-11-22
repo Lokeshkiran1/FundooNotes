@@ -1,7 +1,7 @@
 import express from 'express';
 import * as userController from '../controllers/user.controller';
 import { loginValidator, newUserValidator } from '../validators/user.validator';
-import { userAuth } from '../middlewares/auth.middleware';
+import  {userResetPasswordAuth} from '../middlewares/auth.middleware';
 
 const router = express.Router();
 
@@ -16,6 +16,6 @@ router.post('/login',loginValidator, userController.login);
 router.post('/forgotPassword',userController.authorisedUserOrNot);
 
 //route to reset the password
-router.put('/resetPassword',userAuth,userController.resetPassword);
+router.put('/resetPassword',userResetPasswordAuth,userController.resetPassword);
 
 export default router;

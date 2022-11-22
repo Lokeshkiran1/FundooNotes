@@ -25,6 +25,32 @@ export const userAuth = async (req, res, next) => {
     //console.log(bearerToken);
 
     const user = await jwt.verify(bearerToken, process.env.SECRET_KEY);
+    req.body.UserID=user.EmailID;
+    //console.log(user);
+    next();
+  } catch (error) {
+    res.status(HttpStatus.UNAUTHORIZED).json({
+      code:HttpStatus.UNAUTHORIZED,
+      message:`${error}`
+    });
+  }
+};
+
+
+export const userResetPasswordAuth = async (req, res, next) => {
+  try {
+    let bearerToken = req.header('Authorization');
+    //console.log(bearerToken);
+    if (!bearerToken)
+      throw {
+        code: HttpStatus.BAD_REQUEST,
+        message: 'Authorization token is required'
+      };
+    bearerToken = bearerToken.split(' ')[1];
+
+    //console.log(bearerToken);
+
+    const user = await jwt.verify(bearerToken, process.env.SECRET_KEY);
     req.body.EmailID=user.EmailID;
     //console.log(user);
     next();

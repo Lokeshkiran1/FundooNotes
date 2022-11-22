@@ -23,7 +23,7 @@ export const createNote=async(req,res,next)=>{
     }
 };
 
-//controller to get all the notes available
+//controller to get all the notes available for a particular user
 
 export const getAllNotes=async(req,res,next)=>{
     try{
@@ -42,7 +42,7 @@ export const getAllNotes=async(req,res,next)=>{
     }
 }
 
-/* get a particualar note */
+/* get a particualar note of the user*/
 export const getNote=async(req,res,next)=>{
     try{
         const data=await NoteService.getNote(req.params._id,req.body.userID);
@@ -59,20 +59,16 @@ export const getNote=async(req,res,next)=>{
     }
 };
 
-/* update the note by id*/
+/* update the note by id and user id */
 
 export const updateNote=async(req,res,next)=>{
     try{
         const data=await NoteService.updateNote(req.params._id,req.body,req.body.userID);
-       // if(data!==null){
             res.status(HttpStatus.ACCEPTED).json({
                 code:HttpStatus.ACCEPTED,
                 data:data,
                 message:'note updated successfully'
             });
-        // }else{
-        //     next(error);
-        // }
        
     }catch(error){
         res.status(HttpStatus.BAD_REQUEST).json({

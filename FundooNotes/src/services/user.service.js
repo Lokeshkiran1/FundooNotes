@@ -51,7 +51,7 @@ export const authorisedUser=async(body)=>{
     var token=Jwt.sign(
       {id:data._id,EmailID:data.EmailID},process.env.SECRET_KEY
     );
-    utils.sendMail(body.EmailID);
+    await utils.sendMail(body.EmailID);
     return token;
   }else{
     throw new Error("invalid Email id--!!!!!!!!");
