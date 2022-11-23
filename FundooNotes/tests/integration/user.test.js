@@ -3,6 +3,7 @@ import request from 'supertest';
 import mongoose from 'mongoose';
 
 import app from '../../src/index';
+import { token } from 'morgan';
 
 describe('User APIs Test', () => {
   before((done) => {
@@ -25,6 +26,8 @@ describe('User APIs Test', () => {
 
     done();
   });
+  var AuthToken;
+  var noteId;
 
 
   //1.----Test case for user registration
@@ -136,6 +139,8 @@ describe('User APIs Test', () => {
         .post('/api/v1/users/login')
         .send(inputBody)
         .end((err, res) => {
+          AuthToken=res.body.data;
+          console.log("token====================================================>",token)
         expect(res.statusCode).to.be.equal(200);
         done();
       });
@@ -196,7 +201,7 @@ describe('User APIs Test', () => {
      });
   });
 
-  //Test case for required password
+  //10. Test case for required password
 
   describe('UserLogin', () => {
     const inputBody={
@@ -214,6 +219,130 @@ describe('User APIs Test', () => {
      });
   });
 
+  ////11. Test case to create a new note with valid user
+
+  describe('creating new note',()=>{
+    const inputBody={
+      "title":"note123",
+      "description":"new note 123"
+    }
+    it('note created successfully',(done)=>{
+      request(app)
+      .post('/api/v1/notes')
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .send(inputBody)
+      .end((err,res)=>{
+        noteId=res.body.data._id;
+        console.log("note id ==============================>>>>>>>",noteId);
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  ////12. Test case to create a new note with valid user
+
+  describe('creating new note',()=>{
+    const inputBody={
+      "title":"note:abc",
+      "description":"note: abc abc"
+    }
+    it('note created successfully',(done)=>{
+      request(app)
+      .post('/api/v1/notes')
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .send(inputBody)
+      .end((err,res)=>{
+        console.log(res.body);
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  //13. test case to create a new note without title with valid user
+  describe('creating new note',()=>{
+    const inputBody={
+      "title":"",
+      "description":"new note 123"
+    }
+    it('title should be required',(done)=>{
+      request(app)
+      .post('/api/v1/notes')
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .send(inputBody)
+      .end((err,res)=>{
+        expect(res.statusCode).to.be.equal(400);
+        done();
+      });
+    });
+  });
+
+  //14.Test case to get all the notes of valid user
+  describe('all the notes of the user',()=>{
+    it('notes fetched successfully',(done)=>{
+      request(app)
+      .get('/api/v1/notes')
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        console.log(res.body);
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  ////15. Test case to get a particular note with valid user with note id
+
+  describe('getting the note of particular user with note ID',()=>{
+    it('note fetched successfully',(done)=>{
+      request(app)
+      .get(`/api/v1/notes/${noteId}`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        console.log(res.body);
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  //16. test case to update the note of particular user
+  describe('updating the note',()=>{
+    const inputBody={
+      "color":"green"
+    }
+    it('note updated successfully',(done)=>{
+      request(app)
+      .put(`/api/v1/notes/${noteId}`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .send(inputBody)
+      .end((err,res)=>{
+        console.log(res.body);
+        expect(res.statusCode).to.be.equal(202);
+        done();
+      });
+    });
+  });
+  //17.Test case to delete the particular user note by id
+  describe('deleting the note of particular user using id',()=>{
+    it('note deleted successfully',(done)=>{
+      request(app)
+      .delete(`/api/v1/notes/${noteId}`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        console.log(res.body);
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+
+
 });
+
+
+
 
 
