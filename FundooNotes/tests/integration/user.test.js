@@ -55,7 +55,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar@gmail.com",
       "Password":"naveen"
     }
-    it('user details should be saved in database', (done) => {
+    it('firstname should be more than 4 characters', (done) => {
       request(app)
         .post('/api/v1/users/register')
         .send(inputBody)
@@ -73,7 +73,7 @@ describe('User APIs Test', () => {
     "EmailID":"naveenkumar@gmail.com",
     "Password":"naveen"
   }
-  it('user details should be saved in database', (done) => {
+  it('email id is already registered should use different', (done) => {
     request(app)
       .post('/api/v1/users/register')
       .send(inputBody)
@@ -84,7 +84,7 @@ describe('User APIs Test', () => {
    });
   });
 
-   //4.=====Test case required fields
+   //4.=====Test case for required fields
 
   describe('UserRegistration', () => {
     const inputBody={
@@ -93,7 +93,7 @@ describe('User APIs Test', () => {
       "EmailID":"",
       "Password":"naveen"
     }
-    it('user details should be saved in database', (done) => {
+    it('email id is should required', (done) => {
       request(app)
         .post('/api/v1/users/register')
         .send(inputBody)
@@ -110,10 +110,10 @@ describe('User APIs Test', () => {
     const inputBody={
       "FirstName":"Naveen",
       "LastName":"kumar",
-      "EmailID":"naveenkumar123@gmail.com",
+      "EmailID":"naveenkumar@gmail.com",
       "Password":"nav"
     }
-    it('user details should be saved in database', (done) => {
+    it('password should be more than 4 characters', (done) => {
       request(app)
         .post('/api/v1/users/register')
         .send(inputBody)
@@ -131,7 +131,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar@gmail.com",
       "Password":"naveen"
     }
-    it('user details should be saved in database', (done) => {
+    it('user should be logged in', (done) => {
       request(app)
         .post('/api/v1/users/login')
         .send(inputBody)
@@ -142,7 +142,7 @@ describe('User APIs Test', () => {
      });
   });
 
-  //7.Test case for invalid Email ID
+  //7.Test case for not a registered Email ID
 
 
   describe('UserLogin', () => {
@@ -150,7 +150,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar123@gmail.com",
       "Password":"naveen"
     }
-    it('user details should be saved in database', (done) => {
+    it('should through error about user is not registered', (done) => {
       request(app)
         .post('/api/v1/users/login')
         .send(inputBody)
@@ -167,7 +167,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar@gmail.com",
       "Password":"naveen123"
     }
-    it('user details should be saved in database', (done) => {
+    it('should through error invalid password', (done) => {
       request(app)
         .post('/api/v1/users/login')
         .send(inputBody)
@@ -185,7 +185,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar123@gmail.com",
       "Password":"naveen123"
     }
-    it('user details should be saved in database', (done) => {
+    it('should through error invalid email id', (done) => {
       request(app)
         .post('/api/v1/users/login')
         .send(inputBody)
@@ -203,7 +203,7 @@ describe('User APIs Test', () => {
       "EmailID":"naveenkumar@gmail.com",
       "Password":""
     }
-    it('user details should be saved in database', (done) => {
+    it('password should be required', (done) => {
       request(app)
         .post('/api/v1/users/login')
         .send(inputBody)
