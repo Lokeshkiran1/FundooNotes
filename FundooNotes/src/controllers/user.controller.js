@@ -33,9 +33,9 @@ import * as UserService from '../services/user.service';
 
 //controller to authorise the user for forgotten password
 
-export const authorisedUserOrNot=async(req,res,next)=>{
+export const forgotPassword=async(req,res,next)=>{
   try{
-    const data=await UserService.authorisedUser(req.body);
+    const data=await UserService.forgotPassword(req.body);
     res.status(HttpStatus.OK).json({
       code:HttpStatus.OK,
       data:data,

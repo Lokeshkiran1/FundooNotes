@@ -56,12 +56,12 @@
                 }
             }
         },
-        "users/login":{
+        "/users/login":{
             "post":{
                 "tags":[
-                    "user"
+                    "User"
                 ],
-                "description":"validate login Details",
+                "description":"user login",
                 "parameters":[
                     {
                         "name":"User Login",
@@ -86,8 +86,103 @@
 
                 }
             }
-        }
+        },
+        "/users/forgotPassword":{
+            "post":{
+                "tags":[
+                    "User"
+                ],
+                "description":"user forgot password",
+                "parameters":[
+                    {
+                        "name":"forgotPassword",
+                        "in":"body",
+                        "description":"user Email",
+                        "schema":{
+                        "$ref":"#/definitions/forgotPassword"
+                        }
+                    }
+                ],
+                "produces":["application/json"],
+                "responses":{
+                    "201": {
+                        "description": "User is authorised"
+                    },
+                    "401":{
+                        "description":"invalid user email id"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
 
+                }
+            }
+        },
+        "/users/resetPassword":{
+            "post":{
+                "tags":[
+                    "User"
+                ],
+                "description":"user reset password",
+                "parameters":[
+                    {
+                        "name":"resetPassword",
+                        "in":"body",
+                        "description":"Password",
+                        "schema":{
+                            "$ref":"#/definitions/resetPassword"
+                        }
+                    }
+                ],
+                "produces":["application/json"],
+                "responses":{
+                    "201":{
+                        "description":"resetting password is successfull"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes":{
+            "post":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"Create New Note",
+                "parameters":[
+                    {
+                        "name":"create note",
+                        "in":"body",
+                        "description":"Note",
+                        "schema":{
+                            "$ref":"#/definitions/Note"
+                        }
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note created successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Bad request error"
+                    }
+                }
+            }
+
+        }
     },
     "definitions": {
         "User": {
@@ -117,6 +212,29 @@
                     "type":"string"
                 }
             }
+        },
+        "forgotPassword":{
+            "type":"object",
+            "properties":{
+                "EmailID":{
+                    "type":"string"
+                }
+            }
+        },
+        "resetPassword":{
+            "type":"object",
+            "properties":{
+                "Password":{
+                    "type":"string"
+                }
+            }
+        }
+    },
+    "securityDefinitions":{
+        "JWT":{
+            "type":"apiKey",
+            "name":"Authorization",
+            "in":"header"
         }
     }
 }

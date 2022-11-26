@@ -13,7 +13,7 @@ router.post('/register', newUserValidator, userController.newUser);
 router.post('/login',loginValidator, userController.login);
 
 //route to forgot password
-router.post('/forgotPassword',userController.authorisedUserOrNot);
+router.post('/forgotPassword',userController.forgotPassword);
 
 //route to reset the password
 router.put('/resetPassword',userResetPasswordAuth,userController.resetPassword);

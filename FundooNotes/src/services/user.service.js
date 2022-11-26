@@ -45,7 +45,7 @@ export const loginUser=async(body)=>{
 };
 
 //for forgot password find the user is authorised or not
-export const authorisedUser=async(body)=>{
+export const forgotPassword=async(body)=>{
   const data=await User.findOne({EmailID:body.EmailID});
   if(data!==null){
     var token=Jwt.sign(
