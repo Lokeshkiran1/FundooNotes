@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 import app from '../../src/index';
 import { token } from 'morgan';
+import { note } from '@hapi/joi/lib/base';
 
 describe('User APIs Test', () => {
   before((done) => {
@@ -133,6 +134,7 @@ describe('User APIs Test', () => {
     const inputBody={
       "EmailID":"naveenkumar@gmail.com",
       "Password":"naveen"
+      
     }
     it('user should be logged in', (done) => {
       request(app)
@@ -253,7 +255,7 @@ describe('User APIs Test', () => {
       .set('Authorization',`Bearer ${AuthToken}`)
       .send(inputBody)
       .end((err,res)=>{
-        console.log(res.body);
+        //console.log(res.body);
         expect(res.statusCode).to.be.equal(200);
         done();
       });
@@ -285,7 +287,7 @@ describe('User APIs Test', () => {
       .get('/api/v1/notes')
       .set('Authorization',`Bearer ${AuthToken}`)
       .end((err,res)=>{
-        console.log(res.body);
+        //console.log(res.body);
         expect(res.statusCode).to.be.equal(200);
         done();
       });
@@ -318,7 +320,7 @@ describe('User APIs Test', () => {
       .set('Authorization',`Bearer ${AuthToken}`)
       .send(inputBody)
       .end((err,res)=>{
-        console.log(res.body);
+        //noteId=res.body.data._id;
         expect(res.statusCode).to.be.equal(202);
         done();
       });
@@ -326,20 +328,18 @@ describe('User APIs Test', () => {
   });
   //17.Test case to delete the particular user note by id
   describe('deleting the note of particular user using id',()=>{
-    it('note deleted successfully',(done)=>{
+    console.log("note id in delete =====================================>>>>>",noteId);
+    it('given id of note of the user should be deleted successfully',(done)=>{
       request(app)
       .delete(`/api/v1/notes/${noteId}`)
       .set('Authorization',`Bearer ${AuthToken}`)
       .end((err,res)=>{
-        console.log(res.body);
+        //console.log(res.body);
         expect(res.statusCode).to.be.equal(200);
         done();
       });
     });
   });
-
-
-
 });
 
 

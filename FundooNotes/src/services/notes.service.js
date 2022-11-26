@@ -38,8 +38,10 @@ export const updateNote=async(_id,body,userID)=>{
 };
 
 //delete a single note
-export const deleteNote=async(id,userID)=>{
-    await Notes.findOneAndDelete({id:id,userID:userID});
+export const deleteNote=async(_id,userID)=>{
+    console.log(_id);
+    console.log("user id=================>>>>>>>>>>>",userID);
+    await Notes.findOneAndDelete({_id:_id,userID:userID});
     return '';
 };
 

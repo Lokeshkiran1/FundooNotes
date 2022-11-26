@@ -1,0 +1,123 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "v1",
+        "title": "Fundoo Notes",
+        "description": "Fundoo Notes CLI"
+    },
+    "host": "localhost:4000",
+    "basePath": "/api/v1/",
+    "tags": [
+        {
+            "name": "CLI",
+            "description": "Creating user"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/users/register": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "description": "New User registration",
+                "parameters": [
+                    {
+                        "name": "Create User",
+                        "in": "body",
+                        "description": "User",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    }
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User Created"
+                    }
+                },
+                "401":{
+                    "description":"Bad request error"
+
+                },
+                "500": {
+                    "description": "Internal Server Error"
+                }
+            }
+        },
+        "users/login":{
+            "post":{
+                "tags":[
+                    "user"
+                ],
+                "description":"validate login Details",
+                "parameters":[
+                    {
+                        "name":"User Login",
+                        "in":"body",
+                        "description":"Login Details",
+                        "schema":{
+                            "$ref":"#/definitions/Login"
+                        }
+                    }
+                ],
+                "produces":["application/json"],
+                "responses":{
+                    "201": {
+                        "description": "User loged in"
+                    },
+                    "401":{
+                        "description":"invalid user email id"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+
+                }
+            }
+        }
+
+    },
+    "definitions": {
+        "User": {
+             "type": "object",
+                "properties": {
+                    "FirstName": {
+                    "type": "string"
+                },
+                    "LastName": {
+                    "type": "string"
+                },
+                    "EmailID": {
+                    "type": "string"
+                },
+                     "Password": {
+                    "type": "string"
+                }
+            }
+        },
+        "Login":{
+            "type":"object",
+            "properties":{
+                "EmailID":{
+                    "type":"string"
+                },
+                "Password":{
+                    "type":"string"
+                }
+            }
+        }
+    }
+}
+    
