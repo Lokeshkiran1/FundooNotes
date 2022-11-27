@@ -29,6 +29,7 @@ describe('User APIs Test', () => {
   });
   var AuthToken;
   var noteId;
+  var forgotPasswordToken;
 
 
   //1.----Test case for user registration
@@ -150,7 +151,6 @@ describe('User APIs Test', () => {
   });
 
   //7.Test case for not a registered Email ID
-
 
   describe('UserLogin', () => {
     const inputBody={
@@ -284,7 +284,7 @@ describe('User APIs Test', () => {
   describe('all the notes of the user',()=>{
     it('notes fetched successfully',(done)=>{
       request(app)
-      .get('/api/v1/notes')
+      .get('/api/v1/notes/allNotes')
       .set('Authorization',`Bearer ${AuthToken}`)
       .end((err,res)=>{
         //console.log(res.body);
@@ -295,7 +295,6 @@ describe('User APIs Test', () => {
   });
 
   ////15. Test case to get a particular note with valid user with note id
-
   describe('getting the note of particular user with note ID',()=>{
     it('note fetched successfully',(done)=>{
       request(app)
@@ -316,7 +315,7 @@ describe('User APIs Test', () => {
     }
     it('note updated successfully',(done)=>{
       request(app)
-      .put(`/api/v1/notes/${noteId}`)
+      .put(`/api/v1/notes/color/${noteId}`)
       .set('Authorization',`Bearer ${AuthToken}`)
       .send(inputBody)
       .end((err,res)=>{
@@ -331,11 +330,78 @@ describe('User APIs Test', () => {
     console.log("note id in delete =====================================>>>>>",noteId);
     it('given id of note of the user should be deleted successfully',(done)=>{
       request(app)
-      .delete(`/api/v1/notes/${noteId}`)
+      .delete(`/api/v1/notes/delete/${noteId}`)
       .set('Authorization',`Bearer ${AuthToken}`)
       .end((err,res)=>{
         //console.log(res.body);
         expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  //18.Test case to forgot password with valid user
+  describe('forgotPassword', () => {
+    const inputBody={
+      "EmailID":"naveenkumar@gmail.com"
+    }
+    it('user should be display valid user and mail sent', (done) => {
+      request(app)
+        .post('/api/v1/users/forgotPassword')
+        .send(inputBody)
+        .end((err, res) => {
+          forgotPasswordToken=res.body.data;
+          console.log("token====================================================>",forgotPasswordToken)
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  //19.Test case to forgot password with invalid user
+  describe('forgotPassword', () => {
+    const inputBody={
+      "EmailID":"lokesh@gmail.com"
+    }
+    it('user should be display valid user and mail sent', (done) => {
+      request(app)
+        .post('/api/v1/users/forgotPassword')
+        .send(inputBody)
+        .end((err, res) => {
+        expect(res.statusCode).to.be.equal(400);
+        done();
+      });
+    });
+  });
+
+  //20.Test case to reset password with authorised user
+  describe('resetPassword',()=>{
+    const inputBody={
+      "Password":"naveen123"
+    }
+    it('user password should be reset',(done)=>{
+      request(app)
+      .put('/api/v1/users/resetPassword')
+      .send(inputBody)
+      .set('Authorization',`Bearer ${forgotPasswordToken}`)
+      .end((err,res)=>{
+        expect(res.statusCode).to.be.equal(200);
+        done();
+      });
+    });
+  });
+
+  //21.Test case for reset password without authorization
+  describe('resetPassword',()=>{
+    const inputBody={
+      "Password":"naveen123"
+    }
+    it('user password should be reset',(done)=>{
+      request(app)
+      .put('/api/v1/users/resetPassword')
+      .send(inputBody)
+      .end((err,res)=>{
+        expect(res.statusCode).to.be.equal(401);
         done();
       });
     });

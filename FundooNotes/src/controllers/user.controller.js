@@ -39,7 +39,7 @@ export const forgotPassword=async(req,res,next)=>{
     res.status(HttpStatus.OK).json({
       code:HttpStatus.OK,
       data:data,
-      message:'Authorised user you can proceed further'
+      message:'Authorised user you can proceed further and mail is also sent'
     });
   }catch(error){
     res.status(HttpStatus.BAD_REQUEST).json({
