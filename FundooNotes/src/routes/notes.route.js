@@ -8,21 +8,21 @@ const router=express.Router();
 router.post('',notesValidator,userAuth,notesController.createNote);
 
 //router to get all notes
-router.get('',userAuth,notesController.getAllNotes);
+router.get('/allNotes',userAuth,notesController.getAllNotes);
 
 //router to get a particular note by id
 router.get('/:_id',userAuth,notesController.getNote);
 
 //router to update the note
-router.put('/:_id',userAuth,notesController.updateNote);
+router.put('/color/:_id',userAuth,notesController.updateNote);
 
 //router to delete a note
-router.delete('/:_id',userAuth,notesController.deleteNote);
+router.delete('/delete/:_id',userAuth,notesController.deleteNote);
 
 //router to archieve a note
-router.put('/:_id/archive',userAuth,notesController.archiveTheNote);
+router.post('/:_id/archive',userAuth,notesController.archiveTheNote);
 
 //router to trash a note
-router.put('/:_id/trash',userAuth,notesController.trashTheNote);
+router.post('/:_id/trash',userAuth,notesController.trashTheNote);
 
 export default router;

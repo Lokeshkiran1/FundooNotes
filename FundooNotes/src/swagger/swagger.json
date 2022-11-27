@@ -119,7 +119,7 @@
             }
         },
         "/users/resetPassword":{
-            "post":{
+            "put":{
                 "tags":[
                     "User"
                 ],
@@ -161,6 +161,7 @@
                         "name":"create note",
                         "in":"body",
                         "description":"Note",
+                        "required":"true",
                         "schema":{
                             "$ref":"#/definitions/Note"
                         }
@@ -177,12 +178,240 @@
                         "description":"Bad request error"
                     },
                     "500":{
-                        "description":"Bad request error"
+                        "description":"invalid user email id"
                     }
-                }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
             }
-
+        },
+        "/notes/allNotes":{
+            "get":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"get all the Notes",
+                "parameters":[
+                    {
+                        "name":"get all notes",
+                        "description":"Get all the Notes"
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"notes fetched successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes/{id}":{
+            "get":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"get note by id",
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"Note ID",
+                        "required":"true",
+                        "type":"string"
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note fetched successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes/color/{id}":{
+            "put":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"update note by id",
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"Note ID",
+                        "required":"true",
+                        "type":"string"
+                    },
+                    {
+                        "name":"update note",
+                        "in":"body",
+                        "description":"update note by id",
+                        "required":"false",
+                        "schema":{
+                            "$ref":"#/definitions/updateNote"
+                        }
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note updated successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes/delete/{id}":{
+            "delete":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"delete note by id",
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"Note ID",
+                        "required":"true",
+                        "type":"string"
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note deleted successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes/{id}/archive":{
+            "post":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"archive note by id",
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"Note ID",
+                        "required":"true",
+                        "type":"string"
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note archived successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
+        },
+        "/notes/{id}/trash":{
+            "post":{
+                "tags":[
+                    "Notes"
+                ],
+                "description":"trash note by id",
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"Note ID",
+                        "required":"true",
+                        "type":"string"
+                    }
+                ],
+                "produces":[
+                    "application/json"
+                ],
+                "responses":{
+                    "201":{
+                        "description":"note trashed successfully"
+                    },
+                    "401":{
+                        "description":"Bad request error"
+                    },
+                    "500":{
+                        "description":"Internal Server Error"
+                    }
+                },
+                "security":[
+                    {
+                        "JWT":[]
+                    }
+                ]
+            }
         }
+
+
     },
     "definitions": {
         "User": {
@@ -227,6 +456,32 @@
                 "Password":{
                     "type":"string"
                 }
+            }
+        },
+        "Note":{
+            "type":"object",
+            "properties":{
+                "title":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                }
+            }
+        },
+        "updateNote":{
+            "type":"object",
+            "properties":{
+                "title":{
+                    "type":"string"
+                },
+                "description":{
+                    "type":"string"
+                },
+                "color":{
+                    "type":"string"
+                }
+                
             }
         }
     },
