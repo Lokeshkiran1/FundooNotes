@@ -29,6 +29,7 @@ describe('User APIs Test', () => {
   });
   var AuthToken;
   var noteId;
+  var noteId1;
   var forgotPasswordToken;
 
 
@@ -255,6 +256,7 @@ describe('User APIs Test', () => {
       .set('Authorization',`Bearer ${AuthToken}`)
       .send(inputBody)
       .end((err,res)=>{
+        noteId1=res.body.data._id;
         //console.log(res.body);
         expect(res.statusCode).to.be.equal(200);
         done();
@@ -377,7 +379,7 @@ describe('User APIs Test', () => {
   //20.Test case to reset password with authorised user
   describe('resetPassword',()=>{
     const inputBody={
-      "Password":"naveen123"
+      "Password":"naveen"
     }
     it('user password should be reset',(done)=>{
       request(app)
@@ -406,6 +408,66 @@ describe('User APIs Test', () => {
       });
     });
   });
+  //22.Test case for archive the note 
+
+  describe('archive the note of particular user using id',()=>{
+    it('given id of note of the user should be archived successfully',(done)=>{
+      request(app)
+      .post(`/api/v1/notes/${noteId1}/archive`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        //console.log(res.body);
+        expect(res.statusCode).to.be.equal(202);
+        done();
+      });
+    });
+  });
+
+  //23.Test case for archive deleted note 
+
+  describe('archive the deleted note',()=>{
+    it('should through error note not present',(done)=>{
+      request(app)
+      .post(`/api/v1/notes/${noteId}/archive`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        //console.log(res.body);
+        expect(res.statusCode).to.be.equal(400);
+        done();
+      });
+    });
+  });
+
+  //24.Test case for trash the note 
+
+  describe('trash the note of particular user using id',()=>{
+    it('given id of note of the user should be trashed successfully',(done)=>{
+      request(app)
+      .post(`/api/v1/notes/${noteId1}/trash`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        //console.log(res.body);
+        expect(res.statusCode).to.be.equal(202);
+        done();
+      });
+    });
+  });
+
+  //25.Test case for trash the deleted note 
+
+  describe('deleted note is not able to trash',()=>{
+    it('should through error deleted note is not able to trash',(done)=>{
+      request(app)
+      .post(`/api/v1/notes/${noteId}/trash`)
+      .set('Authorization',`Bearer ${AuthToken}`)
+      .end((err,res)=>{
+        //console.log(res.body);
+        expect(res.statusCode).to.be.equal(400);
+        done();
+      });
+    });
+  });
+
 });
 
 
