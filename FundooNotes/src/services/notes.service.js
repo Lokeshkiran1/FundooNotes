@@ -1,17 +1,19 @@
 import { id } from '@hapi/joi/lib/base';
+import { client } from '../config/redis';
 import Notes from '../models/notes.model';
 
 //create a new note
 export const createNote=async(body)=>{
+    await client.del('getAllData');
     const data=await Notes.create(body);
     return data;
 };
 
 //get all notes 
 export const getAllNotes=async(userID)=>{
-    const data=await Notes.find({userID:userID});
-    //console.log("get all notes --------------============>>>>>>>",data)
-    return data;
+    const getAllNotesDetails=await Notes.find({userID:userID});
+    await client.set('getAllData',JSON.stringify(getAllNotesDetails));
+    return getAllNotesDetails;
 }
 
 //get a note by id
