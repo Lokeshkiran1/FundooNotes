@@ -1,4 +1,5 @@
 import { id } from '@hapi/joi/lib/base';
+import { cli } from 'winston/lib/winston/config';
 import { client } from '../config/redis';
 import Notes from '../models/notes.model';
 
@@ -19,9 +20,10 @@ export const getAllNotes=async(userID)=>{
 //get a note by id
 
 export const getNote=async(_id,userID)=>{
-    const data=await Notes.findOne({_id:_id,userID:userID});
-    //console.log("id and userID ===================>>>>>>>>>>",data);
-    return data;
+    await client.del('getDataByID')
+    const getNoteByID=await Notes.findOne({_id:_id,userID:userID});
+    await client.set('getDataByID',JSON.stringify(getNoteByID))
+    return getNoteByID;
 };
 
 //update a note 
