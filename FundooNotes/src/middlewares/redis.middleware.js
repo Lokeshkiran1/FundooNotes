@@ -1,11 +1,11 @@
 import { client } from "../config/redis"
 
 export const allNotesDetails=async(req,res,next)=>{
-    const arrObj=await client.get('getAllData');
-    if(arrObj!==null){
+    const notesDetails=await client.get('getAllData');
+    if(notesDetails!==null){
         res.status(200).json({
             code:200,
-            data:JSON.parse(arrObj),
+            data:JSON.parse(notesDetails),
             message:'All the notes fetched successfully from redis'
         });
     }else{
