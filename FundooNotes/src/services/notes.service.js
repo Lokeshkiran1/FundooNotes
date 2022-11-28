@@ -5,16 +5,16 @@ import Notes from '../models/notes.model';
 
 //create a new note
 export const createNote=async(body)=>{
-    await client.del('getAllData');
+    await client.del('getAllNotesDetails');
     const data=await Notes.create(body);
     return data;
 };
 
 //get all notes 
 export const getAllNotes=async(userID)=>{
-    const getAllNotesDetails=await Notes.find({userID:userID});
-    await client.set('getAllData',JSON.stringify(getAllNotesDetails));
-    return getAllNotesDetails;
+    const getAllData=await Notes.find({userID:userID});
+    await client.set('getAllNotesDetails',JSON.stringify(getAllData));
+    return getAllData;
 }
 
 //get a note by id
@@ -29,6 +29,7 @@ export const getNote=async(_id,userID)=>{
 //update a note 
 
 export const updateNote=async(_id,body,userID)=>{
+    await client.del('getAllNotesDetails')
     const data=await Notes.findOneAndUpdate(
         {
             _id:_id,userID:userID
@@ -43,6 +44,7 @@ export const updateNote=async(_id,body,userID)=>{
 
 //delete a single note
 export const deleteNote=async(_id,userID)=>{
+    await client.del('getAllNotesDetails')
     console.log(_id);
     console.log("user id=================>>>>>>>>>>>",userID);
     await Notes.findOneAndDelete({_id:_id,userID:userID});

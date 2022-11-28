@@ -1,7 +1,7 @@
 import { client } from "../config/redis"
 
 export const allNotesDetails=async(req,res,next)=>{
-    const notesDetails=await client.get('getAllData');
+    const notesDetails=await client.get('getAllNotesDetails');
     if(notesDetails!==null){
         res.status(200).json({
             code:200,
