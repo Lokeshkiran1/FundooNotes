@@ -54,6 +54,7 @@ export const deleteNote=async(_id,userID)=>{
 
 //archive the note and already archived then unarchive the note
 export const archiveTheNote=async(_id,userID)=>{
+    await client.del('getAllNotesDetails')
     const noteData=await Notes.findOne({_id:_id,userID:userID});
     console.log("Note data =========================>>>>>>>>>>",noteData);
     const isArchived=noteData.isArchived===true?false:true;
@@ -72,6 +73,7 @@ export const archiveTheNote=async(_id,userID)=>{
 //trash a note and untrash
 
 export const trashTheNote=async(_id,userID)=>{
+    await client.del('getAllNotesDetails')
     const noteData=await Notes.findOne({_id:_id,userID:userID});
     console.log("noteData==========================>>>>>>>>>>>",noteData);
     const isTrash=noteData.isTrash===true?false:true;
