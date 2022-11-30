@@ -22,7 +22,6 @@ export async function sendMail(mailID){
                 clientSecret:CLIENT_SECRET,
                 refreshToken:REFRESH_TOKEN,
                 accessToken:accessToken
-
             }
         });
 

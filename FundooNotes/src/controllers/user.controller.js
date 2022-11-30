@@ -1,6 +1,7 @@
 import HttpStatus from 'http-status-codes';
 import * as UserService from '../services/user.service';
 
+
 /**
  * Controller to register new user and login user all users available
  * @param  {object} req - request object
@@ -76,7 +77,6 @@ export const resetPassword=async(req,res,next)=>{
  */
 export const newUser = async (req, res, next) => {
   try {
-    console.log("req.body===========================>",req.body);
     const data = await UserService.newUser(req.body);
     res.status(HttpStatus.CREATED).json({
       code: HttpStatus.CREATED,

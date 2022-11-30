@@ -3,6 +3,7 @@ import User from '../models/user.model';
 import bcrypt from 'bcrypt';
 import Jwt  from 'jsonwebtoken';
 import * as utils from '../utils/user.util';
+import * as mq from '../utils/rabbitmq'
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -18,6 +19,10 @@ export const newUser = async (body) => {
     body.Password=hashPassword;
 
     const data=await User.create(body);
+
+    const dataRabbit=JSON.stringify(data);
+    mq.sender('register',dataRabbit);
+
     return data;
   }else{
     throw new Error("Oops, User with same EmailId already exists, so use different!!!");
