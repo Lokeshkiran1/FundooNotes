@@ -1,3 +1,5 @@
+import { sendMailToNewUser } from './user.util';
+
 var amqp = require('amqplib/callback_api');
 
 export const sender=(queue,msg)=>{
@@ -20,7 +22,7 @@ export const sender=(queue,msg)=>{
     setTimeout(function() {
         connection.close();
         process.exit(0);
-    }, 2000);
+    }, 10000);
 });
 }
 
@@ -41,10 +43,14 @@ export const receiver=(queue)=>{
 
         console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", queue);
 
-        channel.consume(queue, function(msg) {
-            const obj=msg.content.toString().toString();
-            const obj1=JSON.parse(obj);
-            console.log(" [x] Received %s", obj1);
+            channel.consume(queue,async function(msg){
+            const objectJson=msg.content.toString().toString();
+            const objectNormal=JSON.parse(objectJson);
+            const EmailId=objectNormal.EmailID;
+            const Firstname=objectNormal.FirstName;
+            const Lastname=objectNormal.LastName;
+            const result=await sendMailToNewUser(EmailId,Firstname,Lastname);
+            console.log("result============>>>>>><<<<<<<",result);
         },
         {
             noAck: true
